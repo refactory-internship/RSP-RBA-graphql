@@ -23,8 +23,8 @@ const typeDefs = gql`
         total_person: Int!
         booking_time: String!
         note: String!
-        check_in_time: String!
-        check_out_time: String!
+        check_in_time: String
+        check_out_time: String
     }
 
     type Room {
@@ -36,12 +36,16 @@ const typeDefs = gql`
 
     type Query {
         profile: User
+
         users: [User!]!
         user(id: Int!): User
+
         roles: [Roles!]!
         role(id: Int!): Roles
+
         bookings: [Booking!]!
         booking(id: Int!): Booking
+
         rooms: [Room!]!
         room(id: Int!): Room
     }
@@ -49,6 +53,12 @@ const typeDefs = gql`
     type Mutation {
         register (email: String!, password: String!): User!
         login(email: String!, password: String!): String!
+
+        createRoom(room_name: String!, room_capacity: Int!): Room!
+        updateRoom(id: Int!, room_name: String, room_capacity: Int): String!
+        deleteRoom(id: Int!): String!
+
+        createBooking(RoomId: Int!, total_person: Int!, note: String!, booking_time: String!): Booking
     }
 `
 

@@ -82,6 +82,48 @@ const resolvers = {
                 const token = getToken(user);
                 return token
             }
+        },
+
+        //Room CRUD
+        createRoom: async (parent, { room_name, room_capacity }) => {
+            return await Room.create({
+                room_name,
+                room_capacity
+            });
+        },
+        updateRoom: async (parent, { id, room_name, room_capacity }) => {
+            await Room.update({ room_name, room_capacity }, { where: { id } });
+            return 'Room update success'
+        },
+        deleteRoom: async (parent, { id }) => {
+            await Room.destroy({
+                where: { id }
+            });
+            return 'Room delete success'
+        },
+
+        //create booking
+        createBooking: async (parent, { RoomId, total_person, note, booking_time }, context) => {
+            if (context.loggedIn) {
+                const bookingTime = new Date(booking_time);
+                const room = await Room.findByPk(RoomId);
+
+                if (total_person > room.room_capacity) {
+                    return 'Total person is more than room capacity!';
+                } else {
+                    return await Booking.create({
+                        UserId: context.user.id,
+                        RoomId: RoomId,
+                        total_person: total_person,
+                        note: note,
+                        booking_time: bookingTime,
+                        check_in_time: null,
+                        check_out_time: null
+                    })
+                }
+            } else {
+                throw loginError;
+            }
         }
     },
 
