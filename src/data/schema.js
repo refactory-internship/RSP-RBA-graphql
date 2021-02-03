@@ -59,6 +59,7 @@ const typeDefs = gql`
         deleteRoom(id: Int!): String!
 
         createBooking(RoomId: Int!, total_person: Int!, note: String!, booking_time: String!): Booking
+        checkInBooking(id: Int!): String!
     }
 `
 
