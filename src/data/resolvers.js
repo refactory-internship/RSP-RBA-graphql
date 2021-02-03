@@ -1,11 +1,13 @@
-const { User, Role } = require('../db/models');
+const { User, Role, Booking, Room } = require('../db/models');
 const bcrypt = require('bcrypt');
 const { getToken, verifyToken, isAdmin } = require('../middleware/auth')
 const { AuthenticationError, ForbiddenError } = require('apollo-server-express');
+const booking = require('../db/models/booking');
 require('dotenv').config();
 
 const loginError = new AuthenticationError('Please log in');
 const forbidden = new ForbiddenError('You are not authorized!');
+
 const resolvers = {
     Query: {
         profile: async (_, args, context) => {
@@ -19,30 +21,29 @@ const resolvers = {
                 throw loginError;
             }
         },
-        getUsers: async (_, { id }) => {
+        users: async () => {
+            return await User.findAll();
+        },
+        user: async (parent, { id }, context, info) => {
             return await User.findByPk(id);
         },
-        getRole: async (_, { id }) => {
-            return await Role.findByPk(id);
-        },
-        getAllRoles: async (_) => {
+        roles: async () => {
             return await Role.findAll();
         },
-        getAllUsers: async (_, args, context) => {
-            if (context.user) {
-                const user = await User.findOne({
-                    where: { id: context.user.id },
-                    include: 'Role'
-                });
-
-                if (user.Role.name === 'Admin') {
-                    return User.findAll();
-                } else {
-                    throw forbidden;
-                }
-            } else {
-                throw loginError;
-            }
+        role: async (parent, { id }, context, info) => {
+            return await Role.findByPk(id);
+        },
+        bookings: async () => {
+            return await Booking.findAll();
+        },
+        booking: async (parent, { id }, context, info) => {
+            return await Booking.findByPk(id);
+        },
+        rooms: async () => {
+            return await Room.findAll();
+        },
+        room: async (parent, { id }) => {
+            return await Room.findByPk(id);
         }
     },
 
@@ -85,13 +86,29 @@ const resolvers = {
     },
 
     User: {
-        async roles(roles) {
-            return roles.getRole();
+        roles: async (parent) => {
+            return await parent.getRole();
+        },
+        booking: async (parent) => {
+            return await parent.getBookings();
         }
     },
     Roles: {
-        async users(users) {
-            return users.getUsers();
+        users: async (parent) => {
+            return await parent.getUsers();
+        },
+    },
+    Booking: {
+        user: async (parent) => {
+            return await parent.getUser();
+        },
+        room: async (parent) => {
+            return await parent.getRoom();
+        }
+    },
+    Room: {
+        booking: async (parent) => {
+            return await parent.getBookings();
         }
     }
 }

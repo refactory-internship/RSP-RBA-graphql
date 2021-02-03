@@ -13,14 +13,37 @@ const typeDefs = gql`
         email: String!
         photo: String
         roles: Roles!
+        booking: [Booking]
+    }
+
+    type Booking {
+        id: Int!
+        user: User
+        room: Room
+        total_person: Int!
+        booking_time: String!
+        note: String!
+        check_in_time: String!
+        check_out_time: String!
+    }
+
+    type Room {
+        id: Int!
+        room_name: String!
+        room_capacity: Int!
+        booking: [Booking]
     }
 
     type Query {
         profile: User
-        getUsers(id: Int!): User
-        getRole(id: Int!): Roles
-        getAllUsers: [User!]!
-        getAllRoles: [Roles!]!
+        users: [User!]!
+        user(id: Int!): User
+        roles: [Roles!]!
+        role(id: Int!): Roles
+        bookings: [Booking!]!
+        booking(id: Int!): Booking
+        rooms: [Room!]!
+        room(id: Int!): Room
     }
 
     type Mutation {
