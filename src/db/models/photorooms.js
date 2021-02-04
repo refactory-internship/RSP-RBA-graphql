@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class PhotoRooms extends Model {
     /**
@@ -12,16 +10,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       PhotoRooms.belongsTo(models.Room, {
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       });
     }
-  };
-  PhotoRooms.init({
-    photo: DataTypes.STRING,
-    cloudinary_id: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'PhotoRooms',
-  });
+  }
+  PhotoRooms.init(
+    {
+      photo: DataTypes.STRING,
+      cloudinary_id: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "PhotoRooms",
+    }
+  );
   return PhotoRooms;
 };

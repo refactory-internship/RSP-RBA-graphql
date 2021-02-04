@@ -2,11 +2,13 @@ const express = require('express');
 const { Sequelize } = require('sequelize');
 const DB = require('./src/config/database')
 const routes = require('./src/routes')
-const { ApolloServer } = require('apollo-server-express');
-const typeDefs = require('./src/data/schema');
-const resolvers = require('./src/data/resolvers');
+const { ApolloServer, gql } = require('apollo-server-express');
 const { verifyToken } = require('./src/middleware/auth');
-require('dotenv').config();
+const users = require('./src/data/users');
+const roles = require('./src/data/roles');
+const rooms = require('./src/data/rooms');
+const bookings = require('./src/data/bookings');
+const databaseConnection = require('./src/config/testDatabaseConnection');
 
 const app = express();
 const port = process.env.PORT || '3000';
@@ -19,16 +21,15 @@ app.use(routes);
 const sequelize = new Sequelize(DB.development)
 
 //Test database connection
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
+databaseConnection(sequelize);
+
+const typeDef = gql`
+    type Query
+`
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    typeDefs: [typeDef, users.typeDefs, roles.typeDefs, rooms.typeDefs, bookings.typeDefs],
+    resolvers: [users.resolvers, roles.resolvers, rooms.resolvers, bookings.resolvers],
     context: ({ req }) => {
         //get user token from header
         const token = req.headers.authorization || '';
