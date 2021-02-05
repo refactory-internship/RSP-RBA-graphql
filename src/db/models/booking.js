@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Booking.belongsTo(models.User);
-      Booking.belongsTo(models.Room);
+      Booking.belongsTo(models.User, {
+        onDelete: 'CASCADE'
+      });
+      Booking.belongsTo(models.Room, {
+        onDelete: 'CASCADE'
+      });
     }
   }
   Booking.init(
