@@ -1,5 +1,3 @@
-const { sequelize } = require("../db/models");
-
 const databaseConnection = (sequelize) => {
     try {
         sequelize.authenticate();

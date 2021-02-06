@@ -4,6 +4,8 @@ const { getToken } = require('../../middleware/auth');
 const { AuthenticationError, ForbiddenError } = require('apollo-server-express');
 require('dotenv').config();
 
+const loginError = new AuthenticationError('Please log in!');
+
 const resolvers = {
     Query: {
         profile: async (parent, args, context) => {

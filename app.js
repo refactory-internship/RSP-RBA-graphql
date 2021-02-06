@@ -30,13 +30,16 @@ const typeDef = gql`
 const server = new ApolloServer({
     typeDefs: [typeDef, users.typeDefs, roles.typeDefs, rooms.typeDefs, bookings.typeDefs],
     resolvers: [users.resolvers, roles.resolvers, rooms.resolvers, bookings.resolvers],
+
     context: ({ req }) => {
         //get user token from header
         const token = req.headers.authorization || '';
         //retrieve user with the token
         const { user, loggedIn } = verifyToken(token);
         return { user, loggedIn }
-    }
+    },
+    introspection: true,
+    playground: true
 });
 server.applyMiddleware({ app, path: '/rsp-graphql' });
 
