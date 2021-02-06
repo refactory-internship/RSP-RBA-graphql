@@ -17,7 +17,11 @@ module.exports = {
     dialect: "mysql"
   },
   production: {
-    use_env_variable: process.env.DATABASE_URL,
+    username: "gpapngxnduncgq",
+    password: "7be57bde318ce625afe31187651af2836324f671eb2b1a1a2a802efc75baa5ac",
+    database: "d93qceuoq8dkof",
+    host: "ec2-52-6-178-202.compute-1.amazonaws.com",
     dialect: "postgres",
+    logging: false
   }
 }
