@@ -14,12 +14,11 @@ See the information of the database diagram by visiting my [dbdiagram.io]
 
 Visit the [Postman Documentation] link to see further informations about the API
 
-<!-- ## Deployment on Heroku -->
+## Deployment on Heroku -->
 
-<!-- Visit my [Heroku] app to see this app live! -->
+Visit my [Heroku] app to see this app live!
 
-<!-- [heroku]: https://rsp-test-rest-api.herokuapp.com/ -->
-
+[heroku]: https://rsp-test-graphql.herokuapp.com/rsp-graphql/
 [dbdiagram.io]: https://dbdiagram.io/d/6016576e80d742080a3882c8
 [datagrip]: https://www.jetbrains.com/datagrip/
 [postman documentation]: https://documenter.getpostman.com/view/14039041/TW73FmHJ
