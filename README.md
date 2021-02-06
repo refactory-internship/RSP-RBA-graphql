@@ -14,7 +14,7 @@ See the information of the database diagram by visiting my [dbdiagram.io]
 
 Visit the [Postman Documentation] link to see further informations about the API
 
-## Deployment on Heroku -->
+## Deployment on Heroku
 
 Visit my [Heroku] app to see this app live!
 
